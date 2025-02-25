@@ -1,34 +1,27 @@
 /* Общие стили */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #f7eade, #fff3e6); /* Уютный градиент */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     color: #333;
     transition: background-color 0.3s, color 0.5s;
 }
-
-/* Контейнер */
 .container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон */
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-/* Шапка */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
-
 header h1 {
     font-size: 28px;
-    color: #d26d74; /* Приглушенный розовый */
+    color: #d26d74;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,7 +36,6 @@ header h1 {
     font-size: 14px;
     transition: background 0.3s;
 }
-
 .theme-switcher button:hover {
     background: #b85c66;
 }
@@ -54,7 +46,6 @@ header h1 {
     gap: 10px;
     margin-bottom: 20px;
 }
-
 .cat-controls input[type="text"],
 .cat-controls input[type="number"] {
     padding: 10px;
@@ -63,14 +54,12 @@ header h1 {
     width: 100%;
     font-size: 14px;
 }
-
 .cat-controls input[type="file"] {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
 }
-
 .cat-controls button {
     background: #d26d74;
     color: white;
@@ -81,7 +70,6 @@ header h1 {
     font-size: 14px;
     transition: background 0.3s;
 }
-
 .cat-controls button:hover {
     background: #b85c66;
 }
@@ -99,7 +87,6 @@ header h1 {
     list-style: none;
     padding: 0;
 }
-
 #cat-list li {
     display: flex;
     align-items: center;
@@ -110,32 +97,21 @@ header h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 }
-
 #cat-list li:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Фото кошки */
+/* Изображение кошки */
 #cat-list img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
     object-fit: cover;
-}
-
-/* Текст о кошке */
-#cat-list li div:first-child {
-    flex-grow: 1;
+    margin-right: 10px;
 }
 
 /* Кнопки управления */
-#cat-list li div:last-child {
-    display: flex;
-    gap: 10px;
-}
-
 #cat-list li button {
     background: #d26d74;
     color: white;
@@ -146,15 +122,12 @@ header h1 {
     cursor: pointer;
     transition: background 0.3s;
 }
-
 #cat-list li button:hover {
     background: #b85c66;
 }
-
 #cat-list li button.delete-cat {
     background: #ff6b6b;
 }
-
 #cat-list li button.delete-cat:hover {
     background: #e54b4b;
 }
@@ -172,7 +145,6 @@ header h1 {
     align-items: center;
     z-index: 1000;
 }
-
 .modal-content {
     background: #fff;
     padding: 20px;
@@ -182,7 +154,6 @@ header h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
 }
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -193,7 +164,6 @@ header h1 {
         transform: scale(1);
     }
 }
-
 .close {
     position: absolute;
     top: 10px;
@@ -204,7 +174,6 @@ header h1 {
     cursor: pointer;
     transition: color 0.3s;
 }
-
 .close:hover {
     color: #b85c66;
 }
@@ -214,7 +183,6 @@ header h1 {
     color: #5cb85c;
     font-weight: bold;
 }
-
 .adopted {
     color: #ff6b6b;
     font-weight: bold;
@@ -225,35 +193,28 @@ header h1 {
     background: linear-gradient(135deg, #2c3e50, #212f3d);
     color: #ecf0f1;
 }
-
 .dark-theme .container {
     background: rgba(44, 62, 80, 0.9);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 .dark-theme header h1 {
     color: #ecf0f1;
 }
-
 .dark-theme .theme-switcher button {
     background: #ecf0f1;
     color: #2c3e50;
 }
-
 .dark-theme .theme-switcher button:hover {
     background: #bdc3c7;
 }
-
 .dark-theme #cat-list li {
     background: rgba(44, 62, 80, 0.8);
     color: #ecf0f1;
 }
-
 .dark-theme #cat-list li button {
     background: #ecf0f1;
     color: #2c3e50;
 }
-
 .dark-theme #cat-list li button:hover {
     background: #bdc3c7;
 }

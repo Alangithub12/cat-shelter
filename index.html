@@ -19,9 +19,9 @@
         <!-- Контейнер для управления кошками -->
         <div class="cat-controls">
             <!-- Форма для добавления новой кошки -->
-            <input type="text" id="cat-name" placeholder="Имя кошки...">
-            <input type="number" id="cat-age" placeholder="Возраст...">
-            <input type="text" id="cat-breed" placeholder="Порода...">
+            <input type="text" id="cat-name" placeholder="Введите имя кошки..." required>
+            <input type="number" id="cat-age" placeholder="Введите возраст кошки..." required>
+            <input type="text" id="cat-breed" placeholder="Введите породу кошки..." required>
             <input type="file" id="cat-photo" accept="image/*">
             <button id="add-cat">Добавить кошку</button>
             <!-- Выпадающий список для фильтрации кошек -->
@@ -38,7 +38,7 @@
             <div class="modal-content">
                 <span class="close">X</span>
                 <h2>Информация о кошке</h2>
-                <img id="modal-cat-photo" src="" alt="Фото кошки" style="max-width: 100%; margin-bottom: 10px;">
+                <img id="modal-cat-photo" src="" alt="Фото кошки" style="max-width: 100%; margin-bottom: 10px; display: none;">
                 <p><strong>Имя:</strong> <span id="modal-cat-name"></span></p>
                 <p><strong>Возраст:</strong> <span id="modal-cat-age"></span></p>
                 <p><strong>Порода:</strong> <span id="modal-cat-breed"></span></p>

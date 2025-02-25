@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const catNameInput = document.getElementById('cat-name');
     const catAgeInput = document.getElementById('cat-age');
     const catBreedInput = document.getElementById('cat-breed');
-    const catPhotoInput = document.getElementById('cat-photo'); // Новое поле для фото
+    const catPhotoInput = document.getElementById('cat-photo'); // Поле для фото
     const addCatButton = document.getElementById('add-cat');
     const catList = document.getElementById('cat-list');
     const filterCats = document.getElementById('filter-cats');
@@ -60,15 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div>
                     <button class="view-cat" data-id="${cat.id}">Посмотреть</button>
                     <button class="adopt-cat" data-id="${cat.id}">${cat.status === 'available' ? 'Усыновить' : 'Отменить усыновление'}</button>
-                    <button class="delete-cat" data-id="${cat.id}">Удалить</button> <!-- Новая кнопка для удаления -->
+                    <button class="delete-cat" data-id="${cat.id}">Удалить</button>
                 </div>
             `;
-            if (cat.photo) { // Если есть фото, добавляем его в список
+
+            // Если есть фото, добавляем его в список
+            if (cat.photo && cat.photo.startsWith('data:image')) {
                 const img = document.createElement('img');
                 img.src = cat.photo;
                 img.style.maxWidth = '50px';
-                li.prepend(img); // Добавляем фото перед текстом
+                img.style.height = '50px';
+                img.style.objectFit = 'cover';
+                img.style.marginRight = '10px';
+                li.prepend(img);
             }
+
             catList.appendChild(li);
         });
 
@@ -79,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.adopt-cat').forEach(button => {
             button.addEventListener('click', () => toggleAdoption(button.dataset.id));
         });
-        document.querySelectorAll('.delete-cat').forEach(button => { // Обработчик для удаления
+        document.querySelectorAll('.delete-cat').forEach(button => {
             button.addEventListener('click', () => deleteCat(button.dataset.id));
         });
     }
@@ -92,12 +98,45 @@ document.addEventListener('DOMContentLoaded', () => {
             age,
             breed,
             status: 'available',
-            photo: photo ? URL.createObjectURL(photo) : '' // Преобразуем файл в URL
+            photo: '' // Инициализируем пустым значением
         };
-        cats.push(newCat);
-        saveCats();
-        renderCats();
-        showToast('Кошка добавлена');
+
+        if (photo) {
+            // Проверяем, является ли файл изображением
+            if (!photo.type.startsWith('image/')) {
+                showToast('Выберите файл с изображением!');
+                return;
+            }
+
+            // Преобразуем файл в Base64
+            convertFileToBase64(photo)
+                .then(base64 => {
+                    newCat.photo = base64; // Сохраняем Base64-строку
+                    cats.push(newCat);
+                    saveCats();
+                    renderCats();
+                    showToast('Кошка добавлена');
+                })
+                .catch(error => {
+                    console.error('Ошибка при преобразовании фото:', error);
+                    showToast('Не удалось загрузить фото.');
+                });
+        } else {
+            cats.push(newCat);
+            saveCats();
+            renderCats();
+            showToast('Кошка добавлена без фото.');
+        }
+    }
+
+    // Преобразование файла в Base64
+    function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
     }
 
     // Удаление кошки
@@ -126,11 +165,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Отображение модального окна
     function showModal(id) {
         const cat = cats.find(cat => cat.id == id);
-        document.getElementById('modal-cat-photo').src = cat.photo || ''; // Отображаем фото
-        document.getElementById('modal-cat-name').textContent = cat.name;
-        document.getElementById('modal-cat-age').textContent = cat.age;
-        document.getElementById('modal-cat-breed').textContent = cat.breed;
-        document.getElementById('modal-cat-status').textContent = cat.status;
+
+        // Находим элементы модального окна
+        const modalPhoto = document.getElementById('modal-cat-photo');
+        const modalName = document.getElementById('modal-cat-name');
+        const modalAge = document.getElementById('modal-cat-age');
+        const modalBreed = document.getElementById('modal-cat-breed');
+        const modalStatus = document.getElementById('modal-cat-status');
+
+        // Проверяем наличие фото
+        if (cat.photo && cat.photo.startsWith('data:image')) {
+            modalPhoto.src = cat.photo;
+            modalPhoto.style.display = 'block';
+        } else {
+            modalPhoto.src = '';
+            modalPhoto.style.display = 'none';
+        }
+
+        // Заполняем данные в модальном окне
+        modalName.textContent = cat.name;
+        modalAge.textContent = cat.age;
+        modalBreed.textContent = cat.breed;
+        modalStatus.textContent = cat.status;
+
         modal.style.display = 'flex'; // Показываем модальное окно
     }
 
@@ -159,17 +216,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Сохранение данных в localStorage
     function saveCats() {
-        localStorage.setItem('cats', JSON.stringify(cats.map(cat => ({
-            ...cat,
-            photo: '' // Не сохраняем фото, так как это Blob URL
-        }))));
+        localStorage.setItem('cats', JSON.stringify(cats));
     }
 
     // Загрузка данных из localStorage
     function loadCats() {
         const savedCats = localStorage.getItem('cats');
         if (savedCats) {
-            cats = JSON.parse(savedCats).map(cat => ({ ...cat, photo: '' })); // Восстанавливаем пустые фото
+            cats = JSON.parse(savedCats);
             renderCats();
         }
     }

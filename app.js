@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const catAgeInput = document.getElementById('cat-age');
     const catBreedInput = document.getElementById('cat-breed');
     const catPhotoInput = document.getElementById('cat-photo'); // Поле для фото
-    const addCatButton = document.getElementById('add-cat');
+    const addCatButton = document.getElementById('add-cat'); // Кнопка добавления кошки
     const catList = document.getElementById('cat-list');
     const filterCats = document.getElementById('filter-cats');
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.getElementById('theme-toggle'); // Кнопка переключения темы
     const modal = document.getElementById('modal');
     const closeModal = document.querySelector('.close');
 
@@ -19,12 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Переключение темы
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const isDarkTheme = document.body.classList.contains('dark-theme');
-        localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-        themeToggle.textContent = isDarkTheme ? 'Светлая тема 🌝' : 'Тёмная тема 🌚';
-    });
+    if (themeToggle) { // Проверяем, существует ли элемент
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            const isDarkTheme = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+            themeToggle.textContent = isDarkTheme ? 'Светлая тема 🌝' : 'Тёмная тема 🌚';
+        });
+    }
 
     // Применение сохраненной темы из localStorage
     applySavedTheme();
@@ -64,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            // Если есть фото, добавляем его в список
-            if (cat.photo && cat.photo.startsWith('data:image')) {
+            // Если есть временная ссылка на фото, добавляем его в список
+            if (cat.photo) {
                 const img = document.createElement('img');
                 img.src = cat.photo;
                 img.style.maxWidth = '50px';
@@ -102,41 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (photo) {
-            // Проверяем, является ли файл изображением
-            if (!photo.type.startsWith('image/')) {
-                showToast('Выберите файл с изображением!');
-                return;
-            }
-
-            // Преобразуем файл в Base64
-            convertFileToBase64(photo)
-                .then(base64 => {
-                    newCat.photo = base64; // Сохраняем Base64-строку
-                    cats.push(newCat);
-                    saveCats();
-                    renderCats();
-                    showToast('Кошка добавлена');
-                })
-                .catch(error => {
-                    console.error('Ошибка при преобразовании фото:', error);
-                    showToast('Не удалось загрузить фото.');
-                });
-        } else {
-            cats.push(newCat);
-            saveCats();
-            renderCats();
-            showToast('Кошка добавлена без фото.');
+            newCat.photo = URL.createObjectURL(photo); // Создаем временную ссылку на фото
         }
-    }
 
-    // Преобразование файла в Base64
-    function convertFileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
+        cats.push(newCat);
+        saveCats();
+        renderCats();
+        showToast('Кошка добавлена');
     }
 
     // Удаление кошки
@@ -174,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalStatus = document.getElementById('modal-cat-status');
 
         // Проверяем наличие фото
-        if (cat.photo && cat.photo.startsWith('data:image')) {
+        if (cat.photo) {
             modalPhoto.src = cat.photo;
             modalPhoto.style.display = 'block';
         } else {
@@ -216,14 +190,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Сохранение данных в localStorage
     function saveCats() {
-        localStorage.setItem('cats', JSON.stringify(cats));
+        // При сохранении удаляем временные ссылки на фото
+        const catsToSave = cats.map(cat => ({
+            id: cat.id,
+            name: cat.name,
+            age: cat.age,
+            breed: cat.breed,
+            status: cat.status
+        }));
+        localStorage.setItem('cats', JSON.stringify(catsToSave));
     }
 
     // Загрузка данных из localStorage
     function loadCats() {
         const savedCats = localStorage.getItem('cats');
         if (savedCats) {
-            cats = JSON.parse(savedCats);
+            cats = JSON.parse(savedCats).map(cat => ({ ...cat, photo: '' })); // Восстанавливаем пустые фото
             renderCats();
         }
     }
@@ -233,10 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-theme');
-            themeToggle.textContent = 'Светлая тема 🌝';
+            if (themeToggle) themeToggle.textContent = 'Светлая тема 🌝';
         } else {
             document.body.classList.remove('dark-theme');
-            themeToggle.textContent = 'Тёмная тема 🌚';
+            if (themeToggle) themeToggle.textContent = 'Тёмная тема 🌚';
         }
     }
 

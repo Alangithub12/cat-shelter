@@ -178,16 +178,6 @@ header h1 {
     color: #b85c66;
 }
 
-/* Статусы кошек */
-.available {
-    color: #5cb85c;
-    font-weight: bold;
-}
-.adopted {
-    color: #ff6b6b;
-    font-weight: bold;
-}
-
 /* Темная тема */
 .dark-theme {
     background: linear-gradient(135deg, #2c3e50, #212f3d);

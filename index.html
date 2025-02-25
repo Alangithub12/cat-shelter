@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Питомник кошек</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Общий контейнер для всего приложения -->
+    <div class="container">
+        <header>
+            <h1>Питомник кошек</h1>
+            <!-- Контейнер для кнопки переключения темы -->
+            <div class="theme-switcher">
+                <button id="theme-toggle">Тёмная тема 🌚</button>
+            </div>
+        </header>
+        <!-- Контейнер для управления кошками -->
+        <div class="cat-controls">
+            <!-- Форма для добавления новой кошки -->
+            <input type="text" id="cat-name" placeholder="Имя кошки...">
+            <input type="number" id="cat-age" placeholder="Возраст...">
+            <input type="text" id="cat-breed" placeholder="Порода...">
+            <input type="file" id="cat-photo" accept="image/*">
+            <button id="add-cat">Добавить кошку</button>
+            <!-- Выпадающий список для фильтрации кошек -->
+            <select id="filter-cats">
+                <option value="all">Все кошки</option>
+                <option value="available">Доступные для усыновления</option>
+                <option value="adopted">Усыновленные</option>
+            </select>
+        </div>
+        <!-- Список кошек -->
+        <ul id="cat-list"></ul>
+        <!-- Модальное окно для просмотра информации о кошке -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">X</span>
+                <h2>Информация о кошке</h2>
+                <img id="modal-cat-photo" src="" alt="Фото кошки" style="max-width: 100%; margin-bottom: 10px;">
+                <p><strong>Имя:</strong> <span id="modal-cat-name"></span></p>
+                <p><strong>Возраст:</strong> <span id="modal-cat-age"></span></p>
+                <p><strong>Порода:</strong> <span id="modal-cat-breed"></span></p>
+                <p><strong>Статус:</strong> <span id="modal-cat-status"></span></p>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

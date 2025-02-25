@@ -1,0 +1,275 @@
+/* Общие стили */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f7eade, #fff3e6); /* Уютный градиент */
+    color: #333;
+    transition: background-color 0.3s, color 0.5s;
+}
+
+/* Контейнер */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон */
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Шапка */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #d26d74; /* Приглушенный розовый */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопка переключения темы */
+.theme-switcher button {
+    background: #d26d74;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.theme-switcher button:hover {
+    background: #b85c66;
+}
+
+/* Форма добавления кошек */
+.cat-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cat-controls input[type="text"],
+.cat-controls input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.cat-controls input[type="file"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.cat-controls button {
+    background: #d26d74;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.cat-controls button:hover {
+    background: #b85c66;
+}
+
+/* Выпадающий список фильтров */
+.cat-controls select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Список кошек */
+#cat-list {
+    list-style: none;
+    padding: 0;
+}
+
+#cat-list li {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#cat-list li:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Фото кошки */
+#cat-list img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+/* Текст о кошке */
+#cat-list li div:first-child {
+    flex-grow: 1;
+}
+
+/* Кнопки управления */
+#cat-list li div:last-child {
+    display: flex;
+    gap: 10px;
+}
+
+#cat-list li button {
+    background: #d26d74;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#cat-list li button:hover {
+    background: #b85c66;
+}
+
+#cat-list li button.delete-cat {
+    background: #ff6b6b;
+}
+
+#cat-list li button.delete-cat:hover {
+    background: #e54b4b;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #d26d74;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #b85c66;
+}
+
+/* Статусы кошек */
+.available {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+.adopted {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+/* Темная тема */
+.dark-theme {
+    background: linear-gradient(135deg, #2c3e50, #212f3d);
+    color: #ecf0f1;
+}
+
+.dark-theme .container {
+    background: rgba(44, 62, 80, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme header h1 {
+    color: #ecf0f1;
+}
+
+.dark-theme .theme-switcher button {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+.dark-theme .theme-switcher button:hover {
+    background: #bdc3c7;
+}
+
+.dark-theme #cat-list li {
+    background: rgba(44, 62, 80, 0.8);
+    color: #ecf0f1;
+}
+
+.dark-theme #cat-list li button {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+.dark-theme #cat-list li button:hover {
+    background: #bdc3c7;
+}
+
+/* Уведомления */
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: #d26d74;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
